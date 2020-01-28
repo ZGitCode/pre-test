@@ -5,19 +5,43 @@ import com.priceminister.account.*;
 
 public class CustomerAccount implements Account {
 
-    public void add(Double addedAmount) {
-        // TODO Auto-generated method stub
+	Double balance ;
+	Double overdraft ;
+	
+    public CustomerAccount(Double overdraft) {
+    	this.balance = new Double(0.0);
+    	this.overdraft = overdraft;
+	}
+
+	public void add(Double addedAmount) {
+        if(addedAmount != null && addedAmount>0)
+        {
+        	this.balance = getBalance()+addedAmount;
+        }
     }
 
     public Double getBalance() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.balance;
     }
 
     public Double withdrawAndReportBalance(Double withdrawnAmount, AccountRule rule) 
     		throws IllegalBalanceException {
-        // TODO Auto-generated method stub
-        return null;
+    	
+    	Double resultingAccountBalance = getBalance() - withdrawnAmount;
+        
+    	if(rule.withdrawPermitted(resultingAccountBalance, getOverdraft()))
+        {
+        	this.balance = resultingAccountBalance;
+        	return getBalance();
+        }
+        else
+        {	
+        	throw new IllegalBalanceException(resultingAccountBalance);
+        }
     }
+
+	public Double getOverdraft() {
+		return this.overdraft;
+	}
 
 }

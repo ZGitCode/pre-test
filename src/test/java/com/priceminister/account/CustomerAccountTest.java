@@ -1,6 +1,5 @@
 package com.priceminister.account;
 
-
 import static org.junit.Assert.*;
 
 import org.junit.*;
@@ -28,7 +27,7 @@ public class CustomerAccountTest {
      */
     @Before
     public void setUp() throws Exception {
-        customerAccount = new CustomerAccount();
+        customerAccount = new CustomerAccount(null);
     }
     
     /**
@@ -36,7 +35,7 @@ public class CustomerAccountTest {
      */
     @Test
     public void testAccountWithoutMoneyHasZeroBalance() {
-        fail("not yet implemented");
+    	assertEquals("account balance is null or not equals to zero",customerAccount.getBalance(),new Double(0.0));
     }
     
     /**
@@ -44,7 +43,12 @@ public class CustomerAccountTest {
      */
     @Test
     public void testAddPositiveAmount() {
-        fail("not yet implemented");
+        Double moneyToAdd = new Double(500);
+        Double newBalance = customerAccount.getBalance() + moneyToAdd;
+        
+        customerAccount.add(moneyToAdd);
+        
+        assertEquals("the new balance is not as expected" , customerAccount.getBalance() , newBalance );
     }
     
     /**
@@ -53,9 +57,17 @@ public class CustomerAccountTest {
      */
     @Test
     public void testWithdrawAndReportBalanceIllegalBalance() {
-        fail("not yet implemented");
+        CustomerAccountRule rule = new CustomerAccountRule();
+        customerAccount.add(new Double(500));
+        try {
+        	customerAccount.withdrawAndReportBalance(new Double(200),rule);
+        }catch(IllegalBalanceException e)
+        {
+        	fail(e.getMessage());
+        }
+        
+        
     }
     
-    // Also implement missing unit tests for the above functionalities.
 
 }

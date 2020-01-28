@@ -26,4 +26,9 @@ public interface Account {
      * @return the account's balance
      */
     public Double getBalance();
+    
+    /**
+     * @return the overdraft if authorized else null
+     */
+    public Double getOverdraft();
 }
